@@ -1,7 +1,7 @@
 const clear = (elements) => {
   elements.input.classList.remove("is-invalid");
   elements.input.classList.remove("text-success");
-  elements.feedback.classList.remove("text-danger");
+  // elements.feedback.classList.remove("text-danger");
   elements.feedback.classList.remove("text-success");
 };
 
