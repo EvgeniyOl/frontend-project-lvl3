@@ -8,9 +8,9 @@ const getItem = (element) => ({
 export default (data, feedback, i18n) => {
   const domParser = new DOMParser();
   const xmlDocument = domParser.parseFromString(data, "application/xml");
-  if (xmlDocument.querySelector("parsererror")) {
-    feedback.error = i18n.t("errors.parse");
-  }
+  // if (xmlDocument.querySelector("parsererror")) {
+  //   feedback.error = i18n.t("errors.parse");
+  // }
   return {
     feedTitle: xmlDocument.querySelector("title")?.textContent,
     feedDescription: xmlDocument.querySelector("description")?.textContent,
