@@ -13,7 +13,8 @@ const renderError = (elements, value) => {
   elements.feedback.classList.remove("text-success");
   elements.feedback.classList.add("text-danger");
   elements.feedback.textContent = value;
-  elements.input.classList.add("is-invalid");
+  elements.input.classList.removeAttribute("readonly");
+  // add("is-invalid");
 };
 // const renderErrorStatus = (uiElements, errorMessage) => {
 //   uiElements.feedback.classList.remove('text-success');
