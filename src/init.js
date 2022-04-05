@@ -1,4 +1,4 @@
-import i18next from "i18next"; //мультиязычная библиотека
+import i18next from "i18next";
 import onChange from "on-change";
 import view from "./view.js";
 import resources from "./locales/index.js";

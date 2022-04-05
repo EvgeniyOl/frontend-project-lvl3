@@ -44,14 +44,14 @@ const runValidation = async (state, i18n, link) => {
     return;
   }
   state.input.readonly = true;
-  // await getFeeds(state, i18n, link);
-  // state.links.push(link);
-  // await getNewPost(state, i18n);
-  // if (state.feedback.error === null) {
-  //   // state.feedback.success = null;
-  //   state.feedback.success = i18n.t("success");
-  // }
-  // state.input.readonly = false;
+  await getFeeds(state, i18n, link);
+  state.links.push(link);
+  await getNewPost(state, i18n);
+  if (state.feedback.error === null) {
+    // state.feedback.success = null;
+    state.feedback.success = i18n.t("success");
+  }
+  state.input.readonly = false;
 };
 
 const view = (elements, state, i18n) => {
