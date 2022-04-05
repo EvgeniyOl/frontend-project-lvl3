@@ -168,22 +168,22 @@ const blockInput = (elements, value) => {
   }
 };
 
-// const render = (elements) => (path, value) => {
-//   if (path === "feedback.error") {
-//     renderError(elements, value);
-//   }
-//   if (path === "feedback.success") {
-//     renderSuccess(elements, value);
-//   }
-//   if (path === "newFeed") {
-//     renderFeeds(elements, value);
-//   }
-//   if (path === "newPosts") {
-//     renderPosts(elements, value.reverse());
-//   }
-//   if (path === "input.readonly") {
-//     blockInput(elements, value);
-//   }
-// };
+const render = (elements) => (path, value) => {
+  if (path === "feedback.error") {
+    renderError(elements, value);
+  }
+  if (path === "feedback.success") {
+    renderSuccess(elements, value);
+  }
+  if (path === "newFeed") {
+    renderFeeds(elements, value);
+  }
+  if (path === "newPosts") {
+    renderPosts(elements, value.reverse());
+  }
+  if (path === "input.readonly") {
+    blockInput(elements, value);
+  }
+};
 
 export default render;
