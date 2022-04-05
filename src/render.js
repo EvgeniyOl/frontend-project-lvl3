@@ -9,11 +9,18 @@ const renderError = (elements, value) => {
   if (value === null) {
     return;
   }
-  clear(elements);
+  // clear(elements);
+  elements.feedback.classList.remove("text-success");
+  elements.feedback.classList.add("text-danger");
   elements.feedback.textContent = value;
   elements.input.classList.add("is-invalid");
-  elements.feedback.classList.add("text-danger");
 };
+// const renderErrorStatus = (uiElements, errorMessage) => {
+//   uiElements.feedback.classList.remove('text-success');
+//   uiElements.feedback.classList.add('text-danger');
+//   uiElements.feedback.textContent = errorMessage;
+//   uiElements.input.removeAttribute("readonly");
+// };
 
 const renderSuccess = (elements, value) => {
   if (value === null) {
