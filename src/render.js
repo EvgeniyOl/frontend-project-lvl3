@@ -10,7 +10,7 @@ const renderError = (elements, value) => {
   if (value === null) {
     return;
   }
-  // clear(elements);
+  clear(elements);
   elements.input.classList.remove("text-success");
   elements.feedback.classList.add("text-danger");
   elements.feedback.textContent = value;
@@ -22,7 +22,7 @@ const renderSuccess = (elements, value) => {
   if (value === null) {
     return;
   }
-  // clear(elements);
+  clear(elements);
   elements.feedback.classList.remove("text-danger");
   elements.feedback.classList.add("text-success");
   elements.feedback.textContent = value;
@@ -175,12 +175,12 @@ const render = (elements) => (path, value) => {
   if (path === "feedback.success") {
     renderSuccess(elements, value);
   }
-  if (path === "newFeed") {
-    renderFeeds(elements, value);
-  }
-  if (path === "newPosts") {
-    renderPosts(elements, value.reverse());
-  }
+  // if (path === "newFeed") {
+  //   renderFeeds(elements, value);
+  // }
+  // if (path === "newPosts") {
+  //   renderPosts(elements, value.reverse());
+  // }
   if (path === "input.readonly") {
     blockInput(elements, value);
   }
