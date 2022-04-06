@@ -2,7 +2,7 @@ import i18next from "i18next";
 import onChange from "on-change";
 import view from "./view.js";
 import resources from "./locales/index.js";
-import render from "./experiment.js";
+import render from "./render.js";
 
 export default () => {
   const elements = {

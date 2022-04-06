@@ -1,5 +1,4 @@
 const clear = (elements) => {
-  //обнуление запроса
   elements.input.classList.remove("is-invalid");
   elements.input.classList.remove("text-success");
   elements.feedback.classList.remove("text-danger");
@@ -10,11 +9,13 @@ const renderError = (elements, value) => {
   if (value === null) {
     return;
   }
-  clear(elements);
+  // clear(elements);
   elements.input.classList.remove("text-success");
+  elements.feedback.classList.remove("text-success");
   elements.feedback.classList.add("text-danger");
-  elements.feedback.textContent = value;
-  elements.input.removeAttribute("readonly");
+  elements.input.value = "";
+  // elements.feedback.textContent = value;
+  // elements.input.removeAttribute("readonly");
   // elements.input.classList.add("is-invalid");
 };
 
@@ -22,7 +23,7 @@ const renderSuccess = (elements, value) => {
   if (value === null) {
     return;
   }
-  clear(elements);
+  // clear(elements);
   elements.feedback.classList.remove("text-danger");
   elements.feedback.classList.add("text-success");
   elements.feedback.textContent = value;
