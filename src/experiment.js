@@ -1,33 +1,85 @@
-const clear = (elements) => {
-  //обнуление запроса
-  elements.input.classList.remove("is-invalid");
-  elements.input.classList.remove("text-success");
-  elements.feedback.classList.remove("text-danger");
+const renderIdleStatus = (elements) => {
+  elements.formInput.removeAttribute("readonly");
+  elements.formInput.focus();
+  elements.formButton.disabled = false;
+  elements.spinner.classList.add("d-none");
+};
+
+const renderProcessingStatus = (elements) => {
+  elements.feedback.textContent = "";
+  elements.formButton.disabled = true;
+  elements.formInput.setAttribute("readonly", "true");
+  elements.spinner.classList.remove("d-none");
+};
+
+const renderErrorStatus = (elements, errorMessage) => {
   elements.feedback.classList.remove("text-success");
-};
-
-const renderError = (elements, value) => {
-  if (value === null) {
-    return;
-  }
-  clear(elements);
-  elements.input.classList.remove("text-success");
   elements.feedback.classList.add("text-danger");
-  elements.feedback.textContent = value;
-  elements.input.removeAttribute("readonly");
-  // elements.input.classList.add("is-invalid");
+  elements.feedback.textContent = errorMessage;
+  elements.formInput.removeAttribute("readonly");
+  elements.formButton.disabled = false;
+  elements.spinner.classList.add("d-none");
 };
 
-const renderSuccess = (elements, value) => {
-  if (value === null) {
-    return;
-  }
-  clear(elements);
+const renderSuccessStatus = (elements, successMessage) => {
+  renderIdleStatus(elements);
   elements.feedback.classList.remove("text-danger");
   elements.feedback.classList.add("text-success");
-  elements.feedback.textContent = value;
-  elements.input.value = "";
-  elements.input.focus();
+  elements.feedback.textContent = successMessage;
+  elements.formInput.value = "";
+};
+
+const renderFormValidationProcess = (i18, formValidationState, elements) => {
+  const textElements = document.querySelectorAll("[data-text]");
+  textElements.forEach((element) => {
+    element.textContent = i18.t(element.dataset.text);
+  });
+
+  switch (formValidationState.status) {
+    case "idle": {
+      renderIdleStatus(elements);
+      elements.formInput.classList.remove("is-invalid");
+      break;
+    }
+    case "validation": {
+      renderProcessingStatus(elements);
+      break;
+    }
+    case "error": {
+      elements.formInput.classList.add("is-invalid");
+      renderErrorStatus(elements, i18.t(`errors.${formValidationState.error}`));
+      break;
+    }
+    default:
+      throw new Error(
+        `Untracked formValidation status: ${formValidationState.status}`
+      );
+  }
+};
+
+const renderFeedLoadingProcess = (i18, feedLoadingState, elements) => {
+  switch (feedLoadingState.status) {
+    case "idle": {
+      renderIdleStatus(elements);
+      break;
+    }
+    case "loading": {
+      renderProcessingStatus(elements);
+      break;
+    }
+    case "error": {
+      renderErrorStatus(elements, i18.t(`errors.${feedLoadingState.error}`));
+      break;
+    }
+    case "success": {
+      renderSuccessStatus(elements, i18.t("success"));
+      break;
+    }
+    default:
+      throw new Error(
+        `Untracked feedLoading status: ${feedLoadingState.status}`
+      );
+  }
 };
 
 const createTitle = (field, title) => {
@@ -168,21 +220,21 @@ const blockInput = (elements, value) => {
   }
 };
 
-const render = (elements) => (path, value) => {
+const render = (elements) => (path, errorMessage) => {
   if (path === "feedback.error") {
-    renderError(elements, value);
+    renderFormValidationProcess(elements, errorMessage);
   }
   if (path === "feedback.success") {
-    renderSuccess(elements, value);
+    renderFormValidationProcess(elements, errorMessage);
   }
   if (path === "newFeed") {
-    renderFeeds(elements, value);
+    renderFeeds(elements, errorMessage);
   }
   if (path === "newPosts") {
-    renderPosts(elements, value.reverse());
+    renderPosts(elements, errorMessage.reverse());
   }
   if (path === "input.readonly") {
-    blockInput(elements, value);
+    blockInput(elements, errorMessage);
   }
 };
 
