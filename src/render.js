@@ -135,8 +135,8 @@ const renderPosts = (elements, posts) => {
 
 const renderFeeds = (elements, feeds) => {
   const fieldFeed = elements.feeds;
-  // createTitle(fieldFeed, "Фиды");
-  // createTitle(elements.posts, "Посты");
+  createTitle(fieldFeed, "Фиды");
+  createTitle(elements.posts, "Посты");
   const ul = fieldFeed.querySelector(".list-group");
   feeds.forEach((feed) => {
     const { feedDescription, feedTitle } = feed;
