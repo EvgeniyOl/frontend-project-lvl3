@@ -23,7 +23,6 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      favicon: "assets/favicon.png",
       template: "index.html",
     }),
     new MiniCssExtractPlugin(),
