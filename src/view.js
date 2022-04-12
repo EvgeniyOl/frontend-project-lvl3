@@ -6,7 +6,7 @@ import parser from "./parser.js";
 const makeRequest = async (state, i18n, link) => {
   try {
     const response = await axios.get(
-      `https://allorigins.hexlet.app/raw?disableCache=true&url=${encodeURIComponent(
+      `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
         link
       )}`
     );

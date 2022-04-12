@@ -27,6 +27,7 @@ const renderSuccess = (elements, value) => {
 };
 
 const createTitle = (field, title) => {
+  //????
   if (field.querySelector(".card")) {
     return;
   }
@@ -135,8 +136,8 @@ const renderPosts = (elements, posts) => {
 
 const renderFeeds = (elements, feeds) => {
   const fieldFeed = elements.feeds;
-  createTitle(fieldFeed, "Фиды");
-  createTitle(elements.posts, "Посты");
+  createTitle("Фиды"); //fieldFeed,
+  createTitle("Посты"); //elements.posts,
   const ul = fieldFeed.querySelector(".list-group");
   feeds.forEach((feed) => {
     const { feedDescription, feedTitle } = feed;

@@ -12,8 +12,8 @@ export default (data, feedback, i18n) => {
     feedback.error = i18n.t("errors.parse");
   }
   return {
-    // feedTitle: xmlDocument.querySelector("title")?.textContent,
-    // feedDescription: xmlDocument.querySelector("description")?.textContent,
+    feedTitle: xmlDocument.querySelector("title")?.textContent,
+    feedDescription: xmlDocument.querySelector("description")?.textContent,
     feedItems: [...xmlDocument.querySelectorAll("item")].map(getItem),
   };
 };
