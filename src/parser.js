@@ -13,7 +13,7 @@ export default (data, feedback, i18n) => {
   }
   return {
     // feedTitle: xmlDocument.querySelector("title")?.textContent,
-    feedDescription: xmlDocument.querySelector("description")?.textContent,
+    // feedDescription: xmlDocument.querySelector("description")?.textContent,
     feedItems: [...xmlDocument.querySelectorAll("item")].map(getItem),
   };
 };

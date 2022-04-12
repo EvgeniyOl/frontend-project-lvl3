@@ -6,7 +6,7 @@ import parser from "./parser.js";
 const makeRequest = async (state, i18n, link) => {
   try {
     const response = await axios.get(
-      `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(
+      `https://allorigins.hexlet.app/raw?disableCache=true&url=${encodeURIComponent(
         link
       )}`
     );
@@ -48,7 +48,7 @@ const runValidation = async (state, i18n, link) => {
   state.links.push(link);
   await getNewPost(state, i18n);
   if (state.feedback.error === null) {
-    // state.feedback.success = null;
+    state.feedback.success = null;
     state.feedback.success = i18n.t("success");
   }
   state.input.readonly = false;
