@@ -9,24 +9,19 @@ const renderError = (elements, value) => {
   if (value === null) {
     return;
   }
-  // clear(elements);
-  elements.input.classList.remove("text-success");
-  elements.feedback.classList.remove("text-success");
+  clear(elements);
+  elements.feedback.textContent = value;
+  elements.input.classList.add("is-invalid");
   elements.feedback.classList.add("text-danger");
-  elements.input.value = "";
-  // elements.feedback.textContent = value;
-  // elements.input.removeAttribute("readonly");
-  // elements.input.classList.add("is-invalid");
 };
 
 const renderSuccess = (elements, value) => {
   if (value === null) {
     return;
   }
-  // clear(elements);
-  elements.feedback.classList.remove("text-danger");
-  elements.feedback.classList.add("text-success");
+  clear(elements);
   elements.feedback.textContent = value;
+  elements.feedback.classList.add("text-success");
   elements.input.value = "";
   elements.input.focus();
 };
@@ -140,8 +135,8 @@ const renderPosts = (elements, posts) => {
 
 const renderFeeds = (elements, feeds) => {
   const fieldFeed = elements.feeds;
-  createTitle(fieldFeed, "Фиды");
-  createTitle(elements.posts, "Посты");
+  // createTitle(fieldFeed, "Фиды");
+  // createTitle(elements.posts, "Посты");
   const ul = fieldFeed.querySelector(".list-group");
   feeds.forEach((feed) => {
     const { feedDescription, feedTitle } = feed;
