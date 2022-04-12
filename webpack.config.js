@@ -1,45 +1,31 @@
 import path from "path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import pkg from "webpack";
-
-const { SourceMapDevToolPlugin } = pkg;
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 export default {
-  mode: process.env.NODE_ENV || "development",
   entry: "./src/index.js",
-  devServer: {
-    historyApiFallback: true,
-    static: {
-      directory: path.join(path.resolve(), "dist"),
-    },
-    open: true,
-    compress: true,
-    hot: true,
-    port: 8080,
+  output: {
+    path: path.resolve("dist"),
+    clean: true,
   },
+  mode: process.env.NODE_ENV || "development",
+  devServer: {
+    static: "./dist",
+  },
+  devtool: "source-map",
   module: {
     rules: [
       {
-        test: /\.js$/,
-        enforce: "pre",
-        use: ["source-map-loader"],
-      },
-      {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader", "postcss-loader"],
-      },
-      {
-        test: /\.scss$/,
-        use: ["style-loader", "css-loader", "sass-loader", "postcss-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
   plugins: [
-    new SourceMapDevToolPlugin({
-      filename: "[file].map",
-    }),
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      favicon: "assets/favicon.png",
+      template: "index.html",
     }),
+    new MiniCssExtractPlugin(),
   ],
 };
