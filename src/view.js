@@ -1,5 +1,4 @@
-import _ from "lodash"; //??
-import parseXml from "./parser.js";
+import _ from "lodash";
 import axios from "axios";
 import { setLocale, string } from "yup";
 
