@@ -138,14 +138,13 @@ const updateSavedFeed = (watchedState, savedFeed, newFeedData) => {
   }
 };
 
-const updateFeed = (watchedState, feed) =>
-  downloadXml(feed.url)
-    .then((content) => parseXml(content))
-    .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
-    .catch((error) => {
-      watchedState.feedLoading.error = error.type;
-      watchedState.feedLoading.status = "error";
-    });
+const updateFeed = (watchedState, feed) => downloadXml(feed.url)
+  .then((content) => parseXml(content))
+  .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
+  .catch((error) => {
+    watchedState.feedLoading.error = error.type;
+    watchedState.feedLoading.status = "error";
+  });
 
 const updateFeeds = (watchedState) => {
   Promise.all(watchedState.feeds.map((feed) => updateFeed(watchedState, feed)))
@@ -178,4 +177,6 @@ const closeModal = (watchedState) => {
   watchedState.modal.isVisible = false;
 };
 
-export { changeLanguage, closeModal, handleReadPost, loadFeed, updateFeeds };
+export {
+  changeLanguage, closeModal, handleReadPost, loadFeed, updateFeeds,
+};

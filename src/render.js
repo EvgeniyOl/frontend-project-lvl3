@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 const renderIdleStatus = (uiElements) => {
   uiElements.formInput.removeAttribute("readonly");
   uiElements.formInput.focus();

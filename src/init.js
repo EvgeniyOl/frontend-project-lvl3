@@ -72,6 +72,7 @@ const app = () => {
               renderFormValidationProcess(
                 i18,
                 state.formValidation,
+                // eslint-disable-next-line comma-dangle
                 uiElements
               );
             });
