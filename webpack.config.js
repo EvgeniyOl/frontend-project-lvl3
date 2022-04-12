@@ -23,7 +23,7 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: "./index.html",
     }),
     new MiniCssExtractPlugin(),
   ],

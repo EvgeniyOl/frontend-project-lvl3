@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 import i18next from "i18next";
 import onChange from "on-change";
 import resources from "./locales/index.js";
@@ -72,7 +73,6 @@ const app = () => {
               renderFormValidationProcess(
                 i18,
                 state.formValidation,
-                // eslint-disable-next-line comma-dangle
                 uiElements
               );
             });
