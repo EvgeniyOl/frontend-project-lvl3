@@ -1,4 +1,4 @@
-import _ from "lodash";
+import uniqueId from "lodash/uniqueId.js";
 import axios from "axios";
 import { setLocale, string } from "yup";
 
@@ -86,6 +86,7 @@ const saveFeed = (watchedState, feedUrl, feedData) => {
   watchedState.feeds.push(feed);
   watchedState.posts.push(...posts);
 };
+
 const loadFeed = (watchedState, feedUrl) => {
   watchedState.formValidation.status = "validation";
   validateUrl(feedUrl, watchedState.feeds)
