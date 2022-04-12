@@ -62,49 +62,95 @@ const saveFeed = (watchedState, feedUrl, feedData) => {
   watchedState.feeds.push(feed);
   watchedState.posts.push(...posts);
 };
+const loadFeed = (watchedState, feedUrl) => {
+  watchedState.formValidation.status = "validation";
+  validateUrl(feedUrl, watchedState.feeds)
+    .then(() => {
+      watchedState.formValidation.isValid = true;
+      watchedState.formValidation.error = null;
+      watchedState.formValidation.status = "idle";
+      watchedState.feedLoading.status = "loading";
+    })
+    .then(() => downloadXml(feedUrl))
+    .then((content) => parseXml(content))
+    .then((feedData) => saveFeed(watchedState, feedUrl, feedData))
+    .then(() => {
+      watchedState.feedLoading.error = null;
+      watchedState.feedLoading.status = "success";
+    })
+    .catch((error) => {
+      switch (error.process) {
+        case "formValidation": {
+          watchedState.formValidation.isValid = false;
+          watchedState.formValidation.error = error.type;
+          watchedState.formValidation.status = "error";
+          break;
+        }
+        case "feedLoading": {
+          watchedState.feedLoading.error = error.type;
+          watchedState.feedLoading.status = "error";
+          break;
+        }
+        default:
+          throw new Error(`Error handling untracked process: ${error.process}`);
+      }
+    });
+};
 
-// const getNewPost = async (state, i18n) => {
-//   state.links.forEach(async (link) => {
-//     const response = await makeRequest(state, i18n, link);
-//     const newFeed = parser(response.contents, state.feedback, i18n);
-//     const newPosts = _.differenceBy(newFeed.feedItems, state.posts, "postLink");
-//     if (newPosts.length > 0) {
-//       state.newPosts = [...newPosts];
-//       state.posts = [...state.newPosts, ...state.posts];
-//     }
-//   });
-//   setTimeout(() => getNewPost(state, i18n), 5000);
-// };
+const updateSavedFeed = (watchedState, savedFeed, newFeedData) => {
+  const savedFeedPostLinks = watchedState.posts
+    .filter((post) => post.feedId === savedFeed.id)
+    .map((post) => post.link);
+  const newPosts = newFeedData.items
+    .filter((post) => !savedFeedPostLinks.includes(post.link))
+    .map((post) => ({
+      id: uniqueId(POST_ID_PREFIX),
+      feedId: savedFeed.id,
+      ...post,
+    }));
+  if (newPosts.length !== 0) {
+    watchedState.posts.push(...newPosts);
+  }
+};
 
-// const getFeeds = async (state, i18n, link) => {
-//   const response = await makeRequest(state, i18n, link);
-//   const newFeed = parser(response.contents, state.feedback, i18n);
-//   state.newFeed = [newFeed];
-//   state.feeds = [...state.newFeed, ...state.feeds];
-// };
+const updateFeed = (watchedState, feed) =>
+  downloadXml(feed.url)
+    .then((content) => parseXml(content))
+    .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
+    .catch((error) => {
+      watchedState.feedLoading.error = error.type;
+      watchedState.feedLoading.status = "error";
+    });
 
-// const runValidation = async (state, i18n, link) => {
-//   state.feedback.error = await validate(link, state.links, i18n);
-//   if (state.feedback.error !== null) {
-//     state.feedback.success = null;
-//     return;
-//   }
-//   state.input.readonly = true;
-//   await getFeeds(state, i18n, link);
-//   state.links.push(link);
-//   await getNewPost(state, i18n);
-//   if (state.feedback.error === null) {
-//     state.feedback.success = null;
-//     state.feedback.success = i18n.t("success");
-//   }
-//   state.input.readonly = false;
-// };
+const updateFeeds = (watchedState) => {
+  Promise.all(watchedState.feeds.map((feed) => updateFeed(watchedState, feed)))
+    .then(() => {
+      watchedState.feedLoading.error = null;
+      watchedState.feedLoading.status = "idle";
+    })
+    .finally(() => {
+      setTimeout(updateFeeds, UPDATE_INTERVAL, watchedState);
+    });
+};
 
-// const view = (elements, state, i18n) => {
-//   elements.form.addEventListener("submit", async (e) => {
-//     e.preventDefault();
-//     await runValidation(state, i18n, elements.input.value);
-//   });
-// };
+const changeLanguage = (watchedState, language) => {
+  watchedState.formValidation.status = "idle";
+  watchedState.language = language;
+};
 
-export default view;
+const handleReadPost = (watchedState, postElement) => {
+  const { postId } = postElement.dataset;
+  watchedState.ui.postReadIds.push(postId);
+
+  if (postElement.tagName === "BUTTON") {
+    watchedState.modal.postId = postId;
+    watchedState.modal.isVisible = true;
+  }
+};
+
+const closeModal = (watchedState) => {
+  watchedState.modal.postId = null;
+  watchedState.modal.isVisible = false;
+};
+
+export { changeLanguage, closeModal, handleReadPost, loadFeed, updateFeeds };
