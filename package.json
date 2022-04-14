@@ -1,8 +1,8 @@
 {
-  "name": "frontend-project-lvl3",
+  "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "[![Actions Status](https://github.com/EvgeniyOl/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/EvgeniyOl/frontend-project-lvl3/actions)",
-  "main": "src/init.js",
+  "main": "./src/init.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
