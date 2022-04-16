@@ -1,14 +1,13 @@
-/* eslint-disable comma-dangle */
-import i18next from "i18next";
-import onChange from "on-change";
-import resources from "./locales/index.js";
+import i18next from 'i18next';
+import onChange from 'on-change';
+import resources from './locales/index.js';
 import {
   changeLanguage,
   closeModal,
   handleReadPost,
   loadFeed,
   updateFeeds,
-} from "./view.js";
+} from './view.js';
 
 import {
   renderModal,
@@ -16,26 +15,26 @@ import {
   renderFeeds,
   renderFormValidationProcess,
   renderPosts,
-} from "./render.js";
+} from './render.js';
 
 const app = () => {
-  const defaultLanguage = "ru";
+  const defaultLanguage = 'ru';
 
   const uiElements = {
-    body: document.querySelector("body"),
-    form: document.querySelector("form"),
-    formInput: document.querySelector("form #feed-url"),
-    formButton: document.querySelector("form button"),
-    feedback: document.querySelector("#feedback"),
-    spinner: document.querySelector("#spinner"),
-    feedsContainer: document.querySelector("#feeds"),
-    postsContainer: document.querySelector("#posts"),
-    languageSelector: document.querySelector("#language-selector"),
-    modal: document.querySelector("#modal"),
-    modalTitle: document.querySelector("#modal-title"),
-    modalBody: document.querySelector("#modal-body"),
-    modalRead: document.querySelector("#modal-read"),
-    modalClose: document.querySelector("#modal-close"),
+    body: document.querySelector('body'),
+    form: document.querySelector('form'),
+    formInput: document.querySelector('form #feed-url'),
+    formButton: document.querySelector('form button'),
+    feedback: document.querySelector('#feedback'),
+    spinner: document.querySelector('#spinner'),
+    feedsContainer: document.querySelector('#feeds'),
+    postsContainer: document.querySelector('#posts'),
+    languageSelector: document.querySelector('#language-selector'),
+    modal: document.querySelector('#modal'),
+    modalTitle: document.querySelector('#modal-title'),
+    modalBody: document.querySelector('#modal-body'),
+    modalRead: document.querySelector('#modal-read'),
+    modalClose: document.querySelector('#modal-close'),
   };
 
   const i18 = i18next.createInstance();
@@ -48,12 +47,12 @@ const app = () => {
       const state = {
         language: defaultLanguage,
         formValidation: {
-          status: "idle",
+          status: 'idle',
           isValid: true,
           error: null,
         },
         feedLoading: {
-          status: "idle",
+          status: 'idle',
           error: null,
         },
         feeds: [],
@@ -68,34 +67,34 @@ const app = () => {
       };
       const watchedState = onChange(state, (path, value) => {
         switch (path) {
-          case "language": {
+          case 'language': {
             i18.changeLanguage(value).then(() => {
               renderFormValidationProcess(
                 i18,
                 state.formValidation,
-                uiElements
+                uiElements,
               );
             });
             break;
           }
-          case "formValidation.status": {
+          case 'formValidation.status': {
             renderFormValidationProcess(i18, state.formValidation, uiElements);
             break;
           }
-          case "feedLoading.status": {
+          case 'feedLoading.status': {
             renderFeedLoadingProcess(i18, state.feedLoading, uiElements);
             break;
           }
-          case "feeds": {
+          case 'feeds': {
             renderFeeds(i18, state, uiElements);
             break;
           }
-          case "posts":
-          case "ui.postReadIds": {
+          case 'posts':
+          case 'ui.postReadIds': {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case "modal.isVisible": {
+          case 'modal.isVisible': {
             renderModal(i18, state, uiElements);
             break;
           }
@@ -103,30 +102,30 @@ const app = () => {
         }
       });
 
-      uiElements.form.addEventListener("submit", (e) => {
+      uiElements.form.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(uiElements.form);
-        const feedUrl = formData.get("feed-url").trim();
+        const feedUrl = formData.get('feed-url').trim();
         loadFeed(watchedState, feedUrl);
       });
 
-      uiElements.postsContainer.addEventListener("click", (e) => {
+      uiElements.postsContainer.addEventListener('click', (e) => {
         const postElement = e.target;
         handleReadPost(watchedState, postElement);
       });
 
-      uiElements.languageSelector.addEventListener("click", (e) => {
+      uiElements.languageSelector.addEventListener('click', (e) => {
         const { language } = e.target.dataset;
         changeLanguage(watchedState, language);
       });
 
-      uiElements.modal.addEventListener("click", (e) => {
-        if (e.target.hasAttribute("data-close")) {
+      uiElements.modal.addEventListener('click', (e) => {
+        if (e.target.hasAttribute('data-close')) {
           closeModal(watchedState);
         }
       });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && watchedState.modal.isVisible) {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && watchedState.modal.isVisible) {
           closeModal(watchedState);
         }
       });
