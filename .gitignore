@@ -1,5 +1,5 @@
 /node_modules
 /.DS_Store
 /coverage
-# /.eslintrc.yml
-# dist
+/.eslintrc.yml
+dist
