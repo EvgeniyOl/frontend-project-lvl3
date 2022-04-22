@@ -8,7 +8,7 @@ npm install
 
 ## Vercel
 
-[App link!](https://rss-project-qh4dipnhj-evgeniyol.vercel.app/)
+[App link!](https://rss-project-jdybn2zs8-evgeniyol.vercel.app/)
 
 ### Hexlet tests and linter status:
 
