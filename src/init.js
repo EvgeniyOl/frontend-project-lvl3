@@ -3,7 +3,7 @@ import onChange from 'on-change';
 import resources from './locales/index.js';
 import {
   changeLanguage,
-  closeModal,
+  // closeModal,
   handleReadPost,
   loadFeed,
   updateFeeds,
@@ -17,7 +17,7 @@ import {
   renderPosts,
 } from './render.js';
 
-const app = () => {
+export default async () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -38,7 +38,7 @@ const app = () => {
   };
 
   const i18 = i18next.createInstance();
-  i18
+  await i18
     .init({
       lng: defaultLanguage,
       resources,
@@ -119,21 +119,19 @@ const app = () => {
         changeLanguage(watchedState, language);
       });
 
-      uiElements.modal.addEventListener('click', (e) => {
-        if (e.target.hasAttribute('data-close')) {
-          closeModal(watchedState);
-        }
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && watchedState.modal.isVisible) {
-          closeModal(watchedState);
-        }
-      });
+      // uiElements.modal.addEventListener('click', (e) => {
+      //   if (e.target.hasAttribute('data-close')) {
+      //     closeModal(watchedState);
+      //   }
+      // });
+      // document.addEventListener('keydown', (e) => {
+      //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
+      //     closeModal(watchedState);
+      //   }
+      // });
 
       renderFormValidationProcess(i18, state.formValidation, uiElements);
 
       updateFeeds(watchedState);
     });
 };
-
-export default app;
