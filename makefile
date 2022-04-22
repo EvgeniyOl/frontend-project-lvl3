@@ -1,20 +1,20 @@
 install:
-	npm ci
+    npm ci
 
 build:
-	npm run build
+    npm run build
 
 serve:
-	npx webpack serve
+	 npx webpack serve
 
 test-coverage:
-	npm run test-coverage
+	 npm run test-coverage
 
 lint:
-	npx eslint .
+	 npx eslint .
 
 fix: 
-   npx eslint . --fix
+    npx eslint . --fix
 
 publish:
-	npm publish
+	 npm publish
