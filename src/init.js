@@ -3,7 +3,6 @@ import onChange from 'on-change';
 import resources from './locales/index.js';
 import {
   changeLanguage,
-  // closeModal,
   handleReadPost,
   loadFeed,
   updateFeeds,
@@ -118,17 +117,6 @@ export default async () => {
         const { language } = e.target.dataset;
         changeLanguage(watchedState, language);
       });
-
-      // uiElements.modal.addEventListener('click', (e) => {
-      //   if (e.target.hasAttribute('data-close')) {
-      //     closeModal(watchedState);
-      //   }
-      // });
-      // document.addEventListener('keydown', (e) => {
-      //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
-      //     closeModal(watchedState);
-      //   }
-      // });
 
       renderFormValidationProcess(i18, state.formValidation, uiElements);
 
