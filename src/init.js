@@ -16,7 +16,7 @@ import {
   renderPosts,
 } from './render.js';
 
-export default async () => {
+export default () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -37,10 +37,11 @@ export default async () => {
   };
 
   const i18 = i18next.createInstance();
-  await i18.init({
-    lng: defaultLanguage,
-    resources,
-  })
+  return i18
+    .init({
+      lng: defaultLanguage,
+      resources,
+    })
     .then(() => {
       const state = {
         language: defaultLanguage,
