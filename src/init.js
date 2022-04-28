@@ -57,7 +57,7 @@ export default async () => {
         feeds: [],
         posts: [],
         modal: {
-          // isVisible: false,
+          isVisible: false,
           postId: null,
         },
         ui: {
@@ -93,7 +93,7 @@ export default async () => {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal': {
+          case 'modal.isVisible': {
             renderModal(i18, state, uiElements);
             break;
           }
