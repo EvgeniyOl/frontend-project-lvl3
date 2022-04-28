@@ -6,7 +6,7 @@ import {
   handleReadPost,
   loadFeed,
   updateFeeds,
-} from './view.js';
+} from './controller.js';
 
 import {
   renderModal,
@@ -16,7 +16,7 @@ import {
   renderPosts,
 } from './render.js';
 
-export default async () => {
+export default () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -37,7 +37,7 @@ export default async () => {
   };
 
   const i18 = i18next.createInstance();
-  await i18
+  return i18
     .init({
       lng: defaultLanguage,
       resources,
@@ -57,11 +57,11 @@ export default async () => {
         feeds: [],
         posts: [],
         modal: {
-          isVisible: false,
           postId: null,
         },
         ui: {
-          postReadIds: [],
+          isVisible: false,
+          seenPosts: [], // new Set()
         },
       };
       const watchedState = onChange(state, (path, value) => {
@@ -89,7 +89,7 @@ export default async () => {
             break;
           }
           case 'posts':
-          case 'ui.postReadIds': {
+          case 'ui.seenPosts': {
             renderPosts(i18, state, uiElements);
             break;
           }
@@ -97,7 +97,7 @@ export default async () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          // no default
+          default: throw new Error('Unknown state!');
         }
       });
 
