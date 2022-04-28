@@ -115,7 +115,7 @@ const renderFeeds = (i18, state, uiElements) => {
   card.append(h4, feedsList);
   uiElements.feedsContainer.replaceChildren(card);
 };
-
+//
 const renderPosts = (i18, state, uiElements) => {
   const card = document.createElement('div');
   card.classList.add('card');
