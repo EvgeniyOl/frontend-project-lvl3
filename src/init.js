@@ -16,7 +16,7 @@ import {
   renderPosts,
 } from './render.js';
 
-export default () => {
+export default async () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -37,7 +37,7 @@ export default () => {
   };
 
   const i18 = i18next.createInstance();
-  i18.init({
+  await i18.init({
     lng: defaultLanguage,
     resources,
   })
@@ -120,5 +120,5 @@ export default () => {
 
       updateFeeds(watchedState);
     });
-  return i18.init().then();
+  // return i18.init().then();
 };
