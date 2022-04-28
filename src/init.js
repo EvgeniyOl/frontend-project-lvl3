@@ -61,7 +61,7 @@ export default () => {
         },
         ui: {
           isVisible: false,
-          seenPosts: new Set(),
+          seenPosts: [],
         },
       };
       const watchedState = onChange(state, (path, value) => {
