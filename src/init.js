@@ -60,6 +60,7 @@ export default () => {
           postId: null,
         },
         ui: {
+          isVisible: false,
           seenPosts: new Set(),
         },
       };
@@ -92,7 +93,7 @@ export default () => {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal': {
+          case 'modal.isVisible': {
             renderModal(i18, state, uiElements);
             break;
           }
@@ -121,5 +122,4 @@ export default () => {
 
       updateFeeds(watchedState);
     });
-  // return i18.init().then();
 };
