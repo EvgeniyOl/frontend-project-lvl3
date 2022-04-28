@@ -178,7 +178,7 @@ const renderModal = (i18, state, uiElements) => {
     uiElements.modalBody.replaceChildren(p);
     uiElements.modalRead.textContent = i18.t('modal.read');
     uiElements.modalRead.href = post.link;
-    uiElements.modalClose.textContent = i18.t('modal.close');
+    // uiElements.modalClose.textContent = i18.t('modal.close');
 
     const backdrop = document.createElement('div');
     backdrop.id = 'backdrop';

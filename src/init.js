@@ -6,7 +6,7 @@ import {
   handleReadPost,
   loadFeed,
   updateFeeds,
-} from './view.js';
+} from './controller.js';
 
 import {
   renderModal,
@@ -57,11 +57,11 @@ export default async () => {
         feeds: [],
         posts: [],
         modal: {
-          isVisible: false,
+          // isVisible: false,
           postId: null,
         },
         ui: {
-          postReadIds: [],
+          seenPosts: [],
         },
       };
       const watchedState = onChange(state, (path, value) => {
@@ -89,15 +89,15 @@ export default async () => {
             break;
           }
           case 'posts':
-          case 'ui.postReadIds': {
+          case 'ui.seenPosts': {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal.isVisible': {
+          case 'modal': {
             renderModal(i18, state, uiElements);
             break;
           }
-          // no default
+          default: throw new Error('Unknown state!');
         }
       });
 
