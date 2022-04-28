@@ -60,6 +60,7 @@ export default () => {
           postId: null,
         },
         ui: {
+          isVisible: false,
           seenPosts: [], // new Set()
         },
       };
