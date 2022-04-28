@@ -16,7 +16,7 @@ import {
   renderPosts,
 } from './render.js';
 
-export default async () => {
+export default () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -37,11 +37,10 @@ export default async () => {
   };
 
   const i18 = i18next.createInstance();
-  await i18
-    .init({
-      lng: defaultLanguage,
-      resources,
-    })
+  i18.init({
+    lng: defaultLanguage,
+    resources,
+  })
     .then(() => {
       const state = {
         language: defaultLanguage,
@@ -57,11 +56,10 @@ export default async () => {
         feeds: [],
         posts: [],
         modal: {
-          isVisible: false,
           postId: null,
         },
         ui: {
-          seenPosts: [],
+          seenPosts: new Set(),
         },
       };
       const watchedState = onChange(state, (path, value) => {
@@ -93,7 +91,7 @@ export default async () => {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal.isVisible': {
+          case 'modal': {
             renderModal(i18, state, uiElements);
             break;
           }
@@ -122,4 +120,5 @@ export default async () => {
 
       updateFeeds(watchedState);
     });
+  return i18.init().then();
 };
