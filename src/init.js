@@ -38,7 +38,7 @@ const app = () => {
   };
 
   const i18 = i18next.createInstance();
-  i18.init({
+  return i18.init({
     lng: defaultLanguage,
     resources,
   })
