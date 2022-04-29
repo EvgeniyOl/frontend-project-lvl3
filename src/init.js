@@ -4,7 +4,7 @@ import onChange from 'on-change';
 import resources from './locales/index.js';
 import {
   changeLanguage,
-  // closeModal,
+  closeModal,
   handleReadPost,
   loadFeed,
   updateFeeds,
@@ -115,11 +115,11 @@ const app = () => {
         changeLanguage(watchedState, language);
       });
 
-      // uiElements.modal.addEventListener('click', (e) => {
-      //   if (e.target.hasAttribute('data-close')) {
-      //     closeModal(watchedState);
-      //   }
-      // });
+      uiElements.modal.addEventListener('click', (e) => {
+        if (e.target.hasAttribute('data-close')) {
+          closeModal(watchedState);
+        }
+      });
       // document.addEventListener('keydown', (e) => {
       //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
       //     closeModal(watchedState);
