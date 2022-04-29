@@ -120,11 +120,6 @@ const app = () => {
           closeModal(watchedState);
         }
       });
-      // document.addEventListener('keydown', (e) => {
-      //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
-      //     closeModal(watchedState);
-      //   }
-      // });
 
       renderFormValidationProcess(i18, state.formValidation, uiElements);
 
