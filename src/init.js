@@ -98,7 +98,7 @@ export default async () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          // no default
+          default: throw new Error('Unknown!');
         }
       });
 
