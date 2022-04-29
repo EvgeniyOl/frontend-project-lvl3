@@ -4,7 +4,7 @@ import resources from './locales/index.js';
 import {
   changeLanguage,
   handleReadPost,
-  // closeModal,
+  closeModal,
   loadFeed,
   updateFeeds,
 } from './view.js';
@@ -34,7 +34,7 @@ export default async () => {
     modalTitle: document.querySelector('#modal-title'),
     modalBody: document.querySelector('#modal-body'),
     modalRead: document.querySelector('#modal-read'),
-    // modalClose: document.querySelector('#modal-close'),
+    modalClose: document.querySelector('#modal-close'),
   };
 
   const i18 = i18next.createInstance();
@@ -119,16 +119,16 @@ export default async () => {
         changeLanguage(watchedState, language);
       });
 
-      // uiElements.modal.addEventListener('click', (e) => {
-      //   if (e.target.hasAttribute('data-close')) {
-      //     closeModal(watchedState);
-      //   }
-      // });
-      // document.addEventListener('keydown', (e) => {
-      //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
-      //     closeModal(watchedState);
-      //   }
-      // });
+      uiElements.modal.addEventListener('click', (e) => {
+        if (e.target.hasAttribute('data-close')) {
+          closeModal(watchedState);
+        }
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && watchedState.modal.isVisible) {
+          closeModal(watchedState);
+        }
+      });
 
       renderFormValidationProcess(i18, state.formValidation, uiElements);
 
