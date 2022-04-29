@@ -90,7 +90,7 @@ const app = () => {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal.isVisible': {
+          case 'modal.postId': {
             renderModal(i18, state, uiElements);
             break;
           }
