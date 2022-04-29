@@ -17,7 +17,7 @@ import {
   renderPosts,
 } from './render.js';
 
-export default async () => {
+const app = () => {
   const defaultLanguage = 'ru';
 
   const uiElements = {
@@ -38,7 +38,7 @@ export default async () => {
   };
 
   const i18 = i18next.createInstance();
-  await i18
+  return i18
     .init({
       lng: defaultLanguage,
       resources,
@@ -98,7 +98,7 @@ export default async () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          default: throw new Error('Unknown!');
+          default: throw new Error('Unknown state!');
         }
       });
 
@@ -135,3 +135,5 @@ export default async () => {
       updateFeeds(watchedState);
     });
 };
+
+export default app;
