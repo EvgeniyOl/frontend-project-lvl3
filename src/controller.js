@@ -1,6 +1,6 @@
-import uniqueId from 'lodash/uniqueId.js';
 import axios from 'axios';
 import { setLocale, string } from 'yup';
+import uniqueId from 'lodash/uniqueId.js';
 
 const POST_ID_PREFIX = 'post_';
 const FEED_ID_PREFIX = 'feed_';
@@ -18,11 +18,12 @@ const validateUrl = (rawUrl, feeds) => {
   });
   const feedUrls = feeds.map((feed) => feed.url);
   const schema = string().required().url().notOneOf(feedUrls);
-  return schema.validate(rawUrl).catch((error) => {
-    error.process = 'formValidation';
-    error.type = error.message;
-    throw error;
-  });
+  return schema.validate(rawUrl)
+    .catch((error) => {
+      error.process = 'formValidation';
+      error.type = error.message;
+      throw error;
+    });
 };
 
 const generateProxiedUrl = (url) => {
@@ -35,8 +36,7 @@ const generateProxiedUrl = (url) => {
 
 const downloadXml = (url) => {
   const proxiedUrl = generateProxiedUrl(url);
-  return axios
-    .get(proxiedUrl.href)
+  return axios.get(proxiedUrl.href)
     .then((response) => response.data.contents)
     .catch((error) => {
       error.process = 'feedLoading';
@@ -58,11 +58,12 @@ const parseXml = (content) => {
 
   const title = doc.querySelector('channel title').textContent;
   const description = doc.querySelector('channel description').textContent;
-  const items = [...doc.querySelectorAll('item')].map((item) => ({
-    title: item.querySelector('title').textContent,
-    description: item.querySelector('description').textContent,
-    link: item.querySelector('link').textContent,
-  }));
+  const items = [...doc.querySelectorAll('item')]
+    .map((item) => ({
+      title: item.querySelector('title').textContent,
+      description: item.querySelector('description').textContent,
+      link: item.querySelector('link').textContent,
+    }));
   return {
     title,
     description,
@@ -138,13 +139,15 @@ const updateSavedFeed = (watchedState, savedFeed, newFeedData) => {
   }
 };
 
-const updateFeed = (watchedState, feed) => downloadXml(feed.url)
-  .then((content) => parseXml(content))
-  .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
-  .catch((error) => {
-    watchedState.feedLoading.error = error.type;
-    watchedState.feedLoading.status = 'error';
-  });
+const updateFeed = (watchedState, feed) => (
+  downloadXml(feed.url)
+    .then((content) => parseXml(content))
+    .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
+    .catch((error) => {
+      watchedState.feedLoading.error = error.type;
+      watchedState.feedLoading.status = 'error';
+    })
+);
 
 const updateFeeds = (watchedState) => {
   Promise.all(watchedState.feeds.map((feed) => updateFeed(watchedState, feed)))
@@ -178,5 +181,9 @@ const closeModal = (watchedState) => {
 };
 
 export {
-  changeLanguage, closeModal, handleReadPost, loadFeed, updateFeeds,
+  changeLanguage,
+  closeModal,
+  handleReadPost,
+  loadFeed,
+  updateFeeds,
 };

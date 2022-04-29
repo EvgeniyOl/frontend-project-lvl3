@@ -1,14 +1,14 @@
 import i18next from 'i18next';
 import onChange from 'on-change';
+
 import resources from './locales/index.js';
 import {
   changeLanguage,
-  handleReadPost,
   closeModal,
+  handleReadPost,
   loadFeed,
   updateFeeds,
-} from './view.js';
-
+} from './controller.js';
 import {
   renderModal,
   renderFeedLoadingProcess,
@@ -38,11 +38,10 @@ const app = () => {
   };
 
   const i18 = i18next.createInstance();
-  i18
-    .init({
-      lng: defaultLanguage,
-      resources,
-    })
+  i18.init({
+    lng: defaultLanguage,
+    resources,
+  })
     .then(() => {
       const state = {
         language: defaultLanguage,
@@ -68,13 +67,10 @@ const app = () => {
       const watchedState = onChange(state, (path, value) => {
         switch (path) {
           case 'language': {
-            i18.changeLanguage(value).then(() => {
-              renderFormValidationProcess(
-                i18,
-                state.formValidation,
-                uiElements,
-              );
-            });
+            i18.changeLanguage(value)
+              .then(() => {
+                renderFormValidationProcess(i18, state.formValidation, uiElements);
+              });
             break;
           }
           case 'formValidation.status': {
@@ -98,7 +94,7 @@ const app = () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          default: throw new Error('Unknown state!');
+          // no default
         }
       });
 

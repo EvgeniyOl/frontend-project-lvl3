@@ -47,16 +47,11 @@ const renderFormValidationProcess = (i18, formValidationState, uiElements) => {
     }
     case 'error': {
       uiElements.formInput.classList.add('is-invalid');
-      renderErrorStatus(
-        uiElements,
-        i18.t(`errors.${formValidationState.error}`),
-      );
+      renderErrorStatus(uiElements, i18.t(`errors.${formValidationState.error}`));
       break;
     }
     default:
-      throw new Error(
-        `Untracked formValidation status: ${formValidationState.status}`,
-      );
+      throw new Error(`Untracked formValidation status: ${formValidationState.status}`);
   }
 };
 
@@ -79,9 +74,7 @@ const renderFeedLoadingProcess = (i18, feedLoadingState, uiElements) => {
       break;
     }
     default:
-      throw new Error(
-        `Untracked feedLoading status: ${feedLoadingState.status}`,
-      );
+      throw new Error(`Untracked feedLoading status: ${feedLoadingState.status}`);
   }
 };
 
@@ -129,13 +122,7 @@ const renderPosts = (i18, state, uiElements) => {
   postsList.classList.add('list-group', 'list-group-flush');
   state.posts.forEach((post) => {
     const li = document.createElement('li');
-    li.classList.add(
-      'list-group-item',
-      'd-flex',
-      'justify-content-between',
-      'align-items-start',
-      'py-2',
-    );
+    li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'py-2');
 
     const a = document.createElement('a');
     a.classList.add('m-0');
@@ -168,9 +155,7 @@ const renderModal = (i18, state, uiElements) => {
   const { body, modal } = uiElements;
 
   if (state.modal.isVisible) {
-    const post = state.posts.find(
-      (element) => element.id === state.modal.postId,
-    );
+    const post = state.posts.find((element) => element.id === state.modal.postId);
 
     uiElements.modalTitle.textContent = post.title;
     const p = document.createElement('p');
