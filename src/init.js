@@ -94,7 +94,7 @@ const app = () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          default: throw new Error('ERROR!');
+          default: throw new Error(`Unknown order state: '${path}'!`);
         }
       });
 
