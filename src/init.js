@@ -94,7 +94,7 @@ const app = () => {
             renderModal(i18, state, uiElements);
             break;
           }
-          // no default
+          default: throw new Error('ERROR!');
         }
       });
 
