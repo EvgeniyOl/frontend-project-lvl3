@@ -61,7 +61,7 @@ const app = () => {
           postId: null,
         },
         ui: {
-          postReadIds: [],
+          seenPosts: [],
         },
       };
       const watchedState = onChange(state, (path, value) => {
@@ -86,7 +86,7 @@ const app = () => {
             break;
           }
           case 'posts':
-          case 'ui.postReadIds': {
+          case 'ui.seenPosts': {
             renderPosts(i18, state, uiElements);
             break;
           }

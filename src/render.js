@@ -126,7 +126,7 @@ const renderPosts = (i18, state, uiElements) => {
 
     const a = document.createElement('a');
     a.classList.add('m-0');
-    if (state.ui.postReadIds.includes(post.id)) {
+    if (state.ui.seenPosts.includes(post.id)) {
       a.classList.add('fw-normal', 'link-secondary');
     } else {
       a.classList.add('fw-bold');
