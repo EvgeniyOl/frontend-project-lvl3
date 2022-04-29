@@ -61,7 +61,7 @@ const app = () => {
           postId: null,
         },
         ui: {
-          seenPosts: new Set(),
+          seenPosts: [],
         },
       };
       const watchedState = onChange(state, (path, value) => {
