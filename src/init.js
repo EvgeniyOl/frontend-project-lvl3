@@ -4,7 +4,7 @@ import onChange from 'on-change';
 import resources from './locales/index.js';
 import {
   changeLanguage,
-  closeModal,
+  // closeModal,
   handleReadPost,
   loadFeed,
   updateFeeds,
@@ -90,11 +90,11 @@ const app = () => {
             renderPosts(i18, state, uiElements);
             break;
           }
-          case 'modal.postId': {
+          case 'modal.isVisible': {
             renderModal(i18, state, uiElements);
             break;
           }
-          default: throw new Error(`Unknown order state: '${path}'!`);
+          // no default
         }
       });
 
@@ -115,16 +115,16 @@ const app = () => {
         changeLanguage(watchedState, language);
       });
 
-      uiElements.modal.addEventListener('click', (e) => {
-        if (e.target.hasAttribute('data-close')) {
-          closeModal(watchedState);
-        }
-      });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && watchedState.modal.isVisible) {
-          closeModal(watchedState);
-        }
-      });
+      // uiElements.modal.addEventListener('click', (e) => {
+      //   if (e.target.hasAttribute('data-close')) {
+      //     closeModal(watchedState);
+      //   }
+      // });
+      // document.addEventListener('keydown', (e) => {
+      //   if (e.key === 'Escape' && watchedState.modal.isVisible) {
+      //     closeModal(watchedState);
+      //   }
+      // });
 
       renderFormValidationProcess(i18, state.formValidation, uiElements);
 
