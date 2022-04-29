@@ -4,6 +4,7 @@ import resources from './locales/index.js';
 import {
   changeLanguage,
   handleReadPost,
+  // closeModal,
   loadFeed,
   updateFeeds,
 } from './view.js';
@@ -33,7 +34,7 @@ export default async () => {
     modalTitle: document.querySelector('#modal-title'),
     modalBody: document.querySelector('#modal-body'),
     modalRead: document.querySelector('#modal-read'),
-    modalClose: document.querySelector('#modal-close'),
+    // modalClose: document.querySelector('#modal-close'),
   };
 
   const i18 = i18next.createInstance();

@@ -172,11 +172,11 @@ const handleReadPost = (watchedState, postElement) => {
   }
 };
 
-const closeModal = (watchedState) => {
-  watchedState.modal.postId = null;
-  watchedState.modal.isVisible = false;
-};
+// const closeModal = (watchedState) => {
+//   watchedState.modal.postId = null;
+//   watchedState.modal.isVisible = false;
+// };
 
 export {
-  changeLanguage, closeModal, handleReadPost, loadFeed, updateFeeds,
+  changeLanguage, handleReadPost, loadFeed, updateFeeds,
 };
