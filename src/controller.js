@@ -88,7 +88,7 @@ const saveFeed = (watchedState, feedUrl, feedData) => {
   watchedState.posts.push(...posts);
 };
 
-const loadFeed = (watchedState, feedUrl) => {
+export const loadFeed = (watchedState, feedUrl) => {
   watchedState.formValidation.status = 'validation';
   validateUrl(feedUrl, watchedState.feeds)
     .then(() => {
@@ -139,7 +139,7 @@ const updateSavedFeed = (watchedState, savedFeed, newFeedData) => {
   }
 };
 
-const updateFeed = (watchedState, feed) => (
+export const updateFeed = (watchedState, feed) => (
   downloadXml(feed.url)
     .then((content) => parseXml(content))
     .then((feedData) => updateSavedFeed(watchedState, feed, feedData))
@@ -149,7 +149,7 @@ const updateFeed = (watchedState, feed) => (
     })
 );
 
-const updateFeeds = (watchedState) => {
+export const updateFeeds = (watchedState) => {
   Promise.all(watchedState.feeds.map((feed) => updateFeed(watchedState, feed)))
     .then(() => {
       watchedState.feedLoading.error = null;
@@ -160,14 +160,14 @@ const updateFeeds = (watchedState) => {
     });
 };
 
-const changeLanguage = (watchedState, language) => {
+export const changeLanguage = (watchedState, language) => {
   watchedState.formValidation.status = 'idle';
   watchedState.language = language;
 };
 
-const handleReadPost = (watchedState, postElement) => {
+export const handleReadPost = (watchedState, postElement) => {
   const { postId } = postElement.dataset;
-  watchedState.ui.seenPosts.push(postId);
+  watchedState.ui.seenPosts.add(postId);
 
   if (postElement.tagName === 'BUTTON') {
     watchedState.modal.postId = postId;
@@ -175,15 +175,7 @@ const handleReadPost = (watchedState, postElement) => {
   }
 };
 
-const closeModal = (watchedState) => {
+export const clearPost = (watchedState) => {
   watchedState.modal.postId = null;
   watchedState.modal.isVisible = false;
-};
-
-export {
-  changeLanguage,
-  closeModal,
-  handleReadPost,
-  loadFeed,
-  updateFeeds,
 };

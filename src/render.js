@@ -1,3 +1,5 @@
+import onChange from 'on-change';
+
 const renderIdleStatus = (uiElements) => {
   uiElements.formInput.removeAttribute('readonly');
   uiElements.formInput.focus();
@@ -126,7 +128,7 @@ const renderPosts = (i18, state, uiElements) => {
 
     const a = document.createElement('a');
     a.classList.add('m-0');
-    if (state.ui.seenPosts.includes(post.id)) {
+    if (state.ui.seenPosts.has(post.id)) {
       a.classList.add('fw-normal', 'link-secondary');
     } else {
       a.classList.add('fw-bold');
@@ -141,6 +143,8 @@ const renderPosts = (i18, state, uiElements) => {
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
     button.textContent = i18.t('viewPostButton');
     button.dataset.text = 'viewPostButton';
+    button.dataset.bsToggle = 'modal';
+    button.dataset.bsTarget = '#modal';
     button.dataset.postId = post.id;
 
     li.append(a, button);
@@ -152,8 +156,6 @@ const renderPosts = (i18, state, uiElements) => {
 };
 
 const renderModal = (i18, state, uiElements) => {
-  const { body, modal } = uiElements;
-
   if (state.modal.isVisible) {
     const post = state.posts.find((element) => element.id === state.modal.postId);
 
@@ -164,35 +166,63 @@ const renderModal = (i18, state, uiElements) => {
     uiElements.modalRead.textContent = i18.t('modal.read');
     uiElements.modalRead.href = post.link;
     uiElements.modalClose.textContent = i18.t('modal.close');
-
-    const backdrop = document.createElement('div');
-    backdrop.id = 'backdrop';
-    backdrop.classList.add('modal-backdrop', 'show');
-    body.append(backdrop);
-    body.classList.add('modal-open');
-
-    modal.classList.add('show');
-    modal.style.display = 'block';
-    modal.removeAttribute('aria-hidden');
-    modal.setAttribute('aria-modal', 'true');
-    modal.setAttribute('role', 'dialog');
-  } else {
-    modal.classList.remove('show');
-    modal.style.display = 'none';
-    modal.removeAttribute('aria-modal');
-    modal.removeAttribute('role');
-    modal.setAttribute('aria-hidden', 'true');
-
-    const backdrop = body.querySelector('#backdrop');
-    backdrop.remove();
-    body.classList.remove('modal-open');
   }
 };
 
-export {
-  renderModal,
-  renderFeedLoadingProcess,
-  renderFeeds,
-  renderFormValidationProcess,
-  renderPosts,
+const render = (state, i18, uiElements) => (path, value) => {
+  if (path === 'formValidation.status') renderFormValidationProcess(i18, state.formValidation, uiElements);
+  if (path === 'feedLoading.status') renderFeedLoadingProcess(i18, state.feedLoading, uiElements);
+  if (path === 'feeds') renderFeeds(i18, state, uiElements);
+  if (path === 'posts') renderPosts(i18, state, uiElements);
+  if (path === 'ui.seenPosts') renderPosts(i18, state, uiElements);
+  if (path === 'modal.isVisible') renderModal(i18, state, uiElements);
+  if (path === 'language') i18.changeLanguage(value).then(() => { renderFormValidationProcess(i18, state.formValidation, uiElements); });
+};
+export default (state, i18, service) => {
+  const {
+    loadFeed, handleReadPost, changeLanguage, clearPost, updateFeeds,
+  } = service;
+
+  const uiElements = {
+    body: document.querySelector('body'),
+    form: document.querySelector('form'),
+    formInput: document.querySelector('form #feed-url'),
+    formButton: document.querySelector('form button'),
+    feedback: document.querySelector('#feedback'),
+    spinner: document.querySelector('#spinner'),
+    feedsContainer: document.querySelector('#feeds'),
+    postsContainer: document.querySelector('#posts'),
+    languageSelector: document.querySelector('#language-selector'),
+    modal: document.querySelector('#modal'),
+    modalTitle: document.querySelector('#modal-title'),
+    modalBody: document.querySelector('#modal-body'),
+    modalRead: document.querySelector('#modal-read'),
+    modalClose: document.querySelector('#modal-close'),
+  };
+
+  const watchedState = onChange(state, render(state, i18, uiElements));
+
+  uiElements.form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(uiElements.form);
+    const feedUrl = formData.get('feed-url').trim();
+    loadFeed(watchedState, feedUrl);
+  });
+  uiElements.postsContainer.addEventListener('click', (e) => {
+    const postElement = e.target;
+    handleReadPost(watchedState, postElement);
+  });
+  uiElements.languageSelector.addEventListener('click', (e) => {
+    const { language } = e.target.dataset;
+    changeLanguage(watchedState, language);
+  });
+
+  uiElements.modal.addEventListener('hidden.bs.modal', () => {
+    clearPost(watchedState);
+  });
+
+  renderFormValidationProcess(i18, state.formValidation, uiElements);
+  updateFeeds(watchedState);
+
+  return watchedState;
 };
