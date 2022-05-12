@@ -140,17 +140,11 @@ export const changeLanguage = (watchedState, language) => {
   watchedState.language = language;
 };
 
-export const handleReadPost = (watchedState, postElement) => {
-  const { postId } = postElement.dataset;
+export const handleReadPost = (watchedState, postId) => {
   watchedState.ui.seenPosts.add(postId);
-
-  if (postElement.tagName === 'BUTTON') {
-    watchedState.modal.postId = postId;
-    watchedState.modal.isVisible = true;
-  }
+  watchedState.modal.postId = postId;
 };
 
 export const clearPost = (watchedState) => {
   watchedState.modal.postId = null;
-  watchedState.modal.isVisible = false;
 };

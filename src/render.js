@@ -156,17 +156,15 @@ const renderPosts = (i18, state, uiElements) => {
 };
 
 const renderModal = (i18, state, uiElements) => {
-  if (state.modal.isVisible) {
-    const post = state.posts.find((element) => element.id === state.modal.postId);
+  const post = state.posts.find((element) => element.id === state.modal.postId);
 
-    uiElements.modalTitle.textContent = post.title;
-    const p = document.createElement('p');
-    p.textContent = post.description;
-    uiElements.modalBody.replaceChildren(p);
-    uiElements.modalRead.textContent = i18.t('modal.read');
-    uiElements.modalRead.href = post.link;
-    uiElements.modalClose.textContent = i18.t('modal.close');
-  }
+  uiElements.modalTitle.textContent = post.title;
+  const p = document.createElement('p');
+  p.textContent = post.description;
+  uiElements.modalBody.replaceChildren(p);
+  uiElements.modalRead.textContent = i18.t('modal.read');
+  uiElements.modalRead.href = post.link;
+  uiElements.modalClose.textContent = i18.t('modal.close');
 };
 
 const render = (state, i18, uiElements) => (path, value) => {
@@ -175,9 +173,10 @@ const render = (state, i18, uiElements) => (path, value) => {
   if (path === 'feeds') renderFeeds(i18, state, uiElements);
   if (path === 'posts') renderPosts(i18, state, uiElements);
   if (path === 'ui.seenPosts') renderPosts(i18, state, uiElements);
-  if (path === 'modal.isVisible') renderModal(i18, state, uiElements);
+  if (path === 'modal.postId') renderModal(i18, state, uiElements);
   if (path === 'language') i18.changeLanguage(value).then(() => { renderFormValidationProcess(i18, state.formValidation, uiElements); });
 };
+
 export default (state, i18, service) => {
   const {
     loadFeed, handleReadPost, changeLanguage, clearPost, updateFeeds,
@@ -209,8 +208,8 @@ export default (state, i18, service) => {
     loadFeed(watchedState, feedUrl);
   });
   uiElements.postsContainer.addEventListener('click', (e) => {
-    const postElement = e.target;
-    handleReadPost(watchedState, postElement);
+    const { postId } = e.target.dataset;
+    handleReadPost(watchedState, postId);
   });
   uiElements.languageSelector.addEventListener('click', (e) => {
     const { language } = e.target.dataset;
