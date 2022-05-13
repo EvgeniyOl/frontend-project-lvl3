@@ -127,7 +127,7 @@ const renderPosts = (i18, state, uiElements) => {
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'py-2');
 
     const a = document.createElement('a');
-    a.classList.add('m-0');
+    // a.classList.add('m-0');
     if (state.ui.seenPosts.has(post.id)) {
       a.classList.add('fw-normal', 'link-secondary');
     } else {
